@@ -1,4 +1,3 @@
-console.log("12345");
 const contactsOperations = require("./contacts.js");
 
 const { Command } = require("commander");
