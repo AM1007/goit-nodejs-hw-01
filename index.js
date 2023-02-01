@@ -1,3 +1,4 @@
+console.log("12345");
 const contactsOperations = require("./contacts.js");
 
 const { Command } = require("commander");
@@ -13,25 +14,35 @@ program.parse(process.argv);
 
 const argv = program.opts();
 
-function invokeAction({ action, id, name, email, phone }) {
+async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      // ...
+      const contacts = await contactsOperations.listContacts();
+      console.table(contacts);
       break;
 
     case "get":
-      // ... id
+      const contact = await contactsOperations.getContactById(id);
+      console.table(contact);
       break;
 
     case "add":
-      // ... name email phone
+      const addedContact = await contactsOperations.addContact(
+        name,
+        email,
+        phone
+      );
+      console.table(addedContact);
       break;
 
     case "remove":
-      // ... id
+      const removeContact = await contactsOperations.removeContact(id);
+      console.table(removeContact);
       break;
 
     default:
       console.warn("\x1B[31m Unknown action type!");
   }
 }
+
+invokeAction(argv);
